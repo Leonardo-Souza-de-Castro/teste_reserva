@@ -75,7 +75,7 @@ void loop() {
     byte letra;
     for (byte i = 0; i < mfrc522.uid.size; i++) 
     {
-       //Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
+       Serial.print(mfrc522.Id);
        //Serial.print(mfrc522.uid.uidByte[i], HEX);
        conteudo.concat(String(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " "));
        conteudo.concat(String(mfrc522.uid.uidByte[i], HEX));
@@ -83,10 +83,10 @@ void loop() {
     
     Serial.println("Tag : " + String(conteudo));
 
-    Serial.println("Call Api: https://192.168.0.20:7267/api/tag/");
-    http.begin("http://localhost:5000/api/Login/");
+    Serial.println("Call Api: https://api-avanade.azurewebsites.net/api/Login");
+    http.begin("https://api-avanade.azurewebsites.net/api/Login/");
     http.addHeader("Content-Type", "application/json");
-    String httpRequestData = "{ \" email \" : \"gustavo@gmail.com \" , \" senha \" : \"gustavo123 \" }";
+    String httpRequestData = "{ \"email\" : \"gustavo@gmail.com\" , \"senha\" : \"gustavo123\" }";
     int httpResponseCode = http.POST(httpRequestData);
   
     if (httpResponseCode>0) {
@@ -94,10 +94,13 @@ void loop() {
       Serial.println(httpResponseCode);
       String payload = http.getString();
       Serial.println(payload);
-      http.begin("http://localhost:5000/api/Reserva/");
+      Serial.println(payload.substring(10,350));
+      String teste = payload.substring(10,350);
+      http.begin("https://api-avanade.azurewebsites.net/api/Reserva/");
       http.addHeader("Content-Type", "application/json");
-      http.addHeader("Authorizathiom", "Bearer" + String(payload));
-      String httpRequestData = "{ \" idVaga \" : \"2 \"}";
+      http.addHeader("Authorization", "Bearer " + String(teste));
+      int idVaga = 2;
+      String httpRequestData = "{ \"idVaga\" : \"2\" }";
       int httpResponseCode = http.POST(httpRequestData);
 
         if(httpResponseCode > 0){
