@@ -14,8 +14,8 @@ HTTPClient http;
 #define MAX_SIZE_BLOCK  16
 
 // Replace with your network credentials (STATION)
-const char* ssid = "LEO VIVO";
-const char* password = "guihenrique11";
+const char* ssid = "nome_rede";
+const char* password = "senha_rede";
 
 //esse objeto 'chave' é utilizado para autenticação
 MFRC522::MIFARE_Key key;
